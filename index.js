@@ -1,3 +1,11 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const puppeteer = require('puppeteer');
+
+const app = express(); // ✅ this was missing!
+app.use(bodyParser.json());
+
+
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   console.log("🔐 Amazon AU Login Attempt:", email);
@@ -48,3 +56,4 @@ app.post('/api/login', async (req, res) => {
     return res.status(500).json({ success: false, error: error.message });
   }
 });
+
