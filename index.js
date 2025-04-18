@@ -1,6 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const puppeteer = require('puppeteer');
+import express from 'express';
+import bodyParser from 'body-parser';
+import puppeteer from 'puppeteer';
+
 
 
 const browser = await puppeteer.launch({
