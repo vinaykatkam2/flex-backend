@@ -13,6 +13,7 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   console.log("🔐 Login attempt:", email);
 
+  try {
 
     const page = await browser.newPage();
     await page.goto('https://flex.amazon.com.au/', { waitUntil: 'networkidle2' });
