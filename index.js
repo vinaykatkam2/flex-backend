@@ -6,6 +6,13 @@ const puppeteer = require('puppeteer-core');
 const app = express();
 app.use(bodyParser.json());
 
+const browser = await puppeteer.launch({
+  args: chromium.args,
+  defaultViewport: chromium.defaultViewport,
+  executablePath: await chromium.executablePath,
+  headless: chromium.headless,
+});
+
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   console.log("🔐 Amazon AU Login Attempt:", email);
@@ -14,7 +21,7 @@ app.post('/api/login', async (req, res) => {
     const browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+      executablePath: await chromium.executablePath,
       headless: chromium.headless,
     });
 
