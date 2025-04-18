@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer-core');
+
 
 const app = express(); // ✅ this was missing!
 app.use(bodyParser.json());
@@ -12,9 +14,12 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath || '/usr/bin/chromium-browser',
+      headless: chromium.headless,
     });
+    
 
     const page = await browser.newPage();
     await page.goto('https://flex.amazon.com.au/', { waitUntil: 'networkidle2' });
