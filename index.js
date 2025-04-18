@@ -1,7 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const chromium = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
+
+
+const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
 
 
 const app = express(); // ✅ this was missing!
