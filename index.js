@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const chromium = require('chrome-aws-lambda');
 const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 
 const app = express();
 app.use(bodyParser.json());
