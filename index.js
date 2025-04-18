@@ -6,16 +6,13 @@ const puppeteer = require('puppeteer-core');
 const app = express();
 app.use(bodyParser.json());
 
-const browser = await puppeteer.launch({
-  args: chromium.args,
-  defaultViewport: chromium.defaultViewport,
-  executablePath: await chromium.executablePath,
-  headless: chromium.headless,
+app.get('/', (req, res) => {
+  res.send('Flex backend is running!');
 });
 
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
-  console.log("🔐 Amazon AU Login Attempt:", email);
+  console.log("🔐 Login attempt:", email);
 
   try {
     const browser = await puppeteer.launch({
@@ -48,19 +45,18 @@ app.post('/api/login', async (req, res) => {
     await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
     const finalUrl = page.url();
-    console.log("🧭 Final URL:", finalUrl);
-
     const loginSuccess = finalUrl.includes('flex.amazon.com.au');
+
     await browser.close();
 
-    if (loginSuccess) {
-      return res.status(200).json({ success: true, message: 'Login successful' });
-    } else {
-      return res.status(401).json({ success: false, message: 'Login failed or additional verification required' });
-    }
-  } catch (error) {
-    console.error("❌ Error during login:", error.message);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(200).json({
+      success: loginSuccess,
+      message: loginSuccess ? 'Login successful' : 'Login failed or 2FA required'
+    });
+
+  } catch (err) {
+    console.error('❌ Login error:', err.message);
+    return res.status(500).json({ success: false, error: err.message });
   }
 });
 
