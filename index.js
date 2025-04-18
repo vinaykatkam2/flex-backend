@@ -1,7 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const chromium = require('chrome-aws-lambda');
-const puppeteer = require('puppeteer-core');
 const puppeteer = require('puppeteer');
 
 const app = express();
@@ -15,13 +13,6 @@ app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   console.log("🔐 Login attempt:", email);
 
-  try {
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
-    });
 
     const page = await browser.newPage();
     await page.goto('https://flex.amazon.com.au/', { waitUntil: 'networkidle2' });
