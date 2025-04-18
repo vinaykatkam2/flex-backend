@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   console.log("🔐 Amazon AU Login Attempt:", email);
+  console.log("📨 Login request received:", { email, password });
+
 
   try {
     const browser = await puppeteer.launch({
@@ -58,7 +60,8 @@ app.post('/api/login', async (req, res) => {
     }
   } catch (error) {
     console.log("❌ Error during login:", error.message);
-    return res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ success: false, message: error.message });
+
   }
 });
 
