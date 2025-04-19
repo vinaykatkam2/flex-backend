@@ -1,9 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
 
-const app = express();
-app.use(bodyParser.json());
+const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
+
 
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
