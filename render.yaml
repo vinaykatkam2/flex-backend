@@ -1,6 +1,1 @@
-services:
-  - type: web
-    name: flex-backend
-    env: node
-    buildCommand: npm install
-    startCommand: npm start
+buildCommand: npm install --legacy-peer-deps
